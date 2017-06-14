@@ -53,34 +53,34 @@ namespace CSharpViaTest.Collections._10_EnumerablePractices
         }
 
         #region Please modifies the code to pass the test
-
-        class SkippedEnumerator<T> : IEnumerator<T>
+	class SkippedEnumerator<T> : IEnumerator<T>
         {
+            readonly IEnumerator<T> enumerator;
+
             public SkippedEnumerator(IEnumerable<T> collection)
             {
-                throw new NotImplementedException();
+                enumerator = collection.GetEnumerator();
             }
 
             public bool MoveNext()
             {
-                throw new NotImplementedException();
+                return enumerator.MoveNext() && enumerator.MoveNext();
             }
 
             public void Reset()
             {
-                throw new NotImplementedException();
+                enumerator.Reset();
             }
 
-            public T Current => throw new NotImplementedException();
+            public T Current => enumerator.Current;
 
             object IEnumerator.Current => Current;
 
             public void Dispose()
             {
-                throw new NotImplementedException();
+                enumerator.Dispose();
             }
         }
-
         #endregion
 
         [Fact]
