@@ -65,31 +65,48 @@ namespace CSharpViaTest.Collections._10_EnumerablePractices
         }
 
         #region Please modifies the code to pass the test
-
-        class TreeNodeEnumerator : IEnumerator<TreeNode>
+	class TreeNodeEnumerator : IEnumerator<TreeNode>
         {
+            private TreeNode _root;
+            private Stack<TreeNode> stack;
+
             public TreeNodeEnumerator(TreeNode root)
             {
-                throw new NotImplementedException();
+                _root = root;
+                stack = new Stack<TreeNode>();
+
+               SelectMany(stack, _root);
+
+            }
+
+            private void SelectMany(Stack<TreeNode> stack, TreeNode root)
+            {
+                foreach(var node in root.Children)
+                {
+                    SelectMany(stack, node);
+                }
+
+                stack.Push(root);
             }
 
             public bool MoveNext()
             {
-                throw new NotImplementedException();
+                return stack.Count != 0;
             }
 
             public void Reset()
             {
-                throw new NotImplementedException();
+                stack.Clear();
+                SelectMany(stack, _root);
             }
 
-            public TreeNode Current { get; }
+            public TreeNode Current => stack.Pop();
 
             object IEnumerator.Current => Current;
 
             public void Dispose()
             {
-                throw new NotImplementedException();
+                stack.Clear();
             }
         }
 
